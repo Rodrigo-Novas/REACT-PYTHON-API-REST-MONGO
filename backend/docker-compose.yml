@@ -1,0 +1,31 @@
+version: "3.7"
+services: 
+    app:
+        depends_on: 
+            - "mongo"
+        container_name: flask-app
+        build:
+            context: .
+            dockerfile: DockerFile
+        image: flask-app:latest
+        ports:
+            - "5000:5000"
+        restart: unless-stopped
+        networks:
+            - internal
+    mongo:
+        container_name: mongo
+        image: mongo:latest
+        restart: always
+        # enviroment:
+        #     - MONGODB_DATABASE: db
+        #     - MONGODB_USERNAME: flaskuser
+        #     - MONGODB_PASSWORD: rodrigo45367892
+        #     - MONGODB_HOSTNAME: mongodb
+        ports:
+            - "27017:27017" 
+        networks:
+            - internal
+networks:
+    internal:
+        driver: bridge
